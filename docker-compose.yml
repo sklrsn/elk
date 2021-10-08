@@ -16,3 +16,14 @@ services:
       service: base
     depends_on:
       - syslog
+
+  beats:
+    build: beats
+    extends:
+      file: base.yml
+      service: base
+    volumes:
+      - ./tmp/messages-kv.log:/var/log/messages
+      - ./tmp:/var/beats
+    depends_on:
+      - noise
