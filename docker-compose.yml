@@ -8,6 +8,7 @@ services:
       service: base
     volumes:
       - ./tmp:/var/log/
+    restart: on-failure
 
   noise:
     build: noise
@@ -16,6 +17,7 @@ services:
       service: base
     depends_on:
       - syslog
+    restart: on-failure
 
   beats:
     build: beats
@@ -28,11 +30,13 @@ services:
     depends_on:
       - noise
       - logstash
+    restart: on-failure
 
   logstash:
     build: logstash
     ports:
       - 5044:5044
+    restart: on-failure
 
   elasticsearch:
     build: elasticsearch
@@ -42,6 +46,8 @@ services:
       - logstash
     environment:
       - discovery.type=single-node
+      - xpack.security.enabled=false
+    restart: on-failure
 
   kibana:
     build: kibana
@@ -49,3 +55,6 @@ services:
       - 5601:5601
     depends_on:
       - elasticsearch
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    restart: on-failure
