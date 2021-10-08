@@ -7,8 +7,6 @@ filebeat.inputs:
   - type: log
     paths:
       - /var/log/messages
-      - /var/log/yum.log
-      - /var/log/grubby_prune_debug
 
 # output.file:
 #   path: "/var/beats"
