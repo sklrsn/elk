@@ -3,3 +3,14 @@ version: "3"
 services:
   syslog:
     build: syslog
+    extends:
+      file: base.yml
+      service: base
+
+  noise:
+    build: noise
+    extends:
+      file: base.yml
+      service: base
+    depends_on:
+      - syslog

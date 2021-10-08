@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+  base:
+    environment:
+      - GOOS=linux
+      - GOARCH=arm64
