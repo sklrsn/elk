@@ -27,10 +27,25 @@ services:
       - ./tmp:/var/beats
     depends_on:
       - noise
+      - logstash
 
   logstash:
     build: logstash
     ports:
       - 5044:5044
-    volumes:
-      - ./tmp/logstash:/opt/kalai
+
+  elasticsearch:
+    build: elasticsearch
+    ports:
+      - 9200:9200
+    depends_on:
+      - logstash
+    environment:
+      - discovery.type=single-node
+
+  kibana:
+    build: kibana
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
