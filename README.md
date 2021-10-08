@@ -1,2 +1,2 @@
 
-Syslog emitter -> Beats -> kafka/rabbitmq/redis -> Logstash -> Elastic search -> Kibana
+log emitter (syslog) -> Beats -> kafka/rabbitmq/redis -> Logstash -> Elastic search -> Kibana
