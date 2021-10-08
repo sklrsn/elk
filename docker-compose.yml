@@ -6,6 +6,8 @@ services:
     extends:
       file: base.yml
       service: base
+    volumes:
+      - ./tmp:/var/log/
 
   noise:
     build: noise

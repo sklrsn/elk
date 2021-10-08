@@ -3,7 +3,10 @@
 .PHONY: all build up down
 all: build up
 
-build:
+setup:
+	mkdir -p tmp/
+
+build: setup
 	docker compose build 
 
 up:build
@@ -11,3 +14,7 @@ up:build
 
 down:
 	docker compose down
+
+clean:
+	@echo "=> clean ... "
+	rm -rf tmp/
