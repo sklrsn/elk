@@ -27,3 +27,10 @@ services:
       - ./tmp:/var/beats
     depends_on:
       - noise
+
+  logstash:
+    build: logstash
+    ports:
+      - 5044:5044
+    volumes:
+      - ./tmp/logstash:/opt/kalai

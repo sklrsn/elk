@@ -8,6 +8,9 @@ filebeat.inputs:
     paths:
       - /var/log/messages
 
-output.file:
-  path: "/var/beats"
-  filename: beats
+# output.file:
+#   path: "/var/beats"
+#   filename: beats
+
+output.logstash:
+  hosts: ["logstash:5044"]
