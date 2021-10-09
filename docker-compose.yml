@@ -58,3 +58,22 @@ services:
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     restart: on-failure
+
+  rabbitmq:
+    build: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+      - "4369:4369"
+      - "5671:5671"
+    restart: on-failure
+    healthcheck:
+      test: "exit 0"
+
+  bootstrap:
+    build: bootstrap
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    healthcheck:
+      test: "exit 0"
