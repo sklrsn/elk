@@ -18,3 +18,4 @@ down:
 clean:
 	@echo "=> clean ... "
 	rm -rf tmp/
+	rm -rf vendor/
