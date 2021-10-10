@@ -29,7 +29,8 @@ services:
       - ./tmp:/var/beats
     depends_on:
       - noise
-      - logstash
+      - kafka
+      - rabbitmq
     restart: on-failure
 
   logstash:
@@ -37,13 +38,15 @@ services:
     ports:
       - 5044:5044
     restart: on-failure
+    depends_on:
+      - rabbitmq
+      - kafka
+      - elasticsearch
 
   elasticsearch:
     build: elasticsearch
     ports:
       - 9200:9200
-    depends_on:
-      - logstash
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
@@ -82,6 +85,7 @@ services:
         condition: service_healthy
     healthcheck:
       test: "exit 0"
+    restart: on-failure
 
   zookeeper:
     build: zookeeper
