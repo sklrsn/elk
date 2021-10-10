@@ -12,5 +12,12 @@ filebeat.inputs:
 #   path: "/var/beats"
 #   filename: beats
 
-output.logstash:
-  hosts: ["logstash:5044"]
+# output.logstash:
+#   hosts: ["logstash:5044"]
+
+output.kafka:
+  hosts: ["kafka:9092"]
+  topic: "elk-syslog"
+  required_acks: 1
+  compression: gzip
+  max_message_bytes: 1000000
