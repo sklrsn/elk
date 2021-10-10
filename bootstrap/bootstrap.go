@@ -107,6 +107,7 @@ const (
 )
 
 func setupKafka() {
-	_, err := kafka.DialLeader(context.Background(), "tcp", "kafka:9092", elkTopic, 0)
+	conn, err := kafka.DialLeader(context.Background(), "tcp", "kafka:9092", elkTopic, 0)
 	handleErr(err)
+	defer conn.Close()
 }
