@@ -1,10 +1,12 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"log"
 
+	"github.com/segmentio/kafka-go"
 	"github.com/streadway/amqp"
 )
 
@@ -100,6 +102,11 @@ func handleErr(err error) {
 	}
 }
 
-func setupKafka() {
+const (
+	elkTopic = "elk-syslog"
+)
 
+func setupKafka() {
+	_, err := kafka.DialLeader(context.Background(), "tcp", "kafka:9092", elkTopic, 0)
+	handleErr(err)
 }
