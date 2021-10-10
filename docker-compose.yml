@@ -79,14 +79,14 @@ services:
       test: "exit 0"
 
   zookeeper:
-    image: bitnami/zookeeper:latest
+    build: zookeeper
     ports:
       - "2181:2181"
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
 
   kafka:
-    image: bitnami/kafka:latest
+    build: kafka
     ports:
       - "9092:9092"
     environment:
@@ -96,7 +96,7 @@ services:
       - zookeeper
 
   kafdrop:
-    image: obsidiandynamics/kafdrop
+    build: kafdrop
     restart: "on-failure"
     ports:
       - "9000:9000"
