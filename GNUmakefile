@@ -16,6 +16,7 @@ down:
 	docker compose down
 
 clean:
-	@echo "=> clean ... "
-	rm -rf tmp/
-	rm -rf vendor/
+	@echo "=> Removing ... Please wait"
+	@rm -rf tmp/
+	@rm -rf vendor/
+	@docker system prune -f

@@ -10,8 +10,12 @@ RUN go mod init github.com/sklrsn/elk
 
 RUN go mod tidy
 
-RUN go build -o /opt/elk/rabbitmq rabbitmq.go
+RUN go build -o /opt/elk/bootstrap bootstrap.go
 
-RUN chmod +x /opt/elk/rabbitmq
+RUN chmod +x /opt/elk/bootstrap
 
-ENTRYPOINT [ "/opt/elk/rabbitmq" ]
+ADD entrypoint.sh /opt/elk/
+
+RUN chmod +x /opt/elk/entrypoint.sh
+
+CMD [ "/opt/elk/entrypoint.sh" ]

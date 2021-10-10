@@ -1,11 +1,38 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 
 	"github.com/streadway/amqp"
 )
+
+var (
+	broker string
+)
+
+func init() {
+	flag.StringVar(&broker, "broker", "rabbitmq", "Choices - rabbitmq/kafka")
+
+	flag.Parse()
+}
+
+func main() {
+	log.Printf("=> bootstrap %v", broker)
+
+	switch broker {
+
+	case "rabbitmq":
+		setupRabbitMQ()
+
+	case "kafka":
+		setupKafka()
+
+	default:
+		log.Fatalf("incorrect message broker %v", broker)
+	}
+}
 
 const (
 	dlExchange       = "elk-dead-letter"
@@ -16,11 +43,7 @@ const (
 	unroutedQueue    = "elk-unrouted-queue"
 )
 
-func init() {
-
-}
-
-func main() {
+func setupRabbitMQ() {
 	conn, err := amqp.Dial("amqp://guest:guest@rabbitmq:5672/")
 	handleErr(err)
 	defer conn.Close()
@@ -75,4 +98,8 @@ func handleErr(err error) {
 		log.Println(err)
 		log.Fatalln(err)
 	}
+}
+
+func setupKafka() {
+
 }
