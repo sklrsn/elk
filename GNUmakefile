@@ -1,6 +1,6 @@
 .DEFAULT_GOAL=all
 
-.PHONY: all build up down
+.PHONY: all build up down clean
 all: build up
 
 setup:
@@ -10,7 +10,9 @@ build: setup
 	docker compose build 
 
 up:build
-	docker compose up
+	docker compose up --force-recreate
+
+rm: down clean
 
 down:
 	docker compose down

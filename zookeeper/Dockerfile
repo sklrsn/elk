@@ -1,1 +1,1 @@
-FROM bitnami/zookeeper:latest
+FROM wurstmeister/zookeeper:latest

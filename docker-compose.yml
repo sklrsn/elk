@@ -35,6 +35,9 @@ services:
 
   logstash:
     build: logstash
+    extends:
+      file: base.yml
+      service: base
     ports:
       - 5044:5044
     restart: on-failure
@@ -45,6 +48,9 @@ services:
 
   elasticsearch:
     build: elasticsearch
+    extends:
+      file: base.yml
+      service: base
     ports:
       - 9200:9200
     environment:
@@ -54,6 +60,9 @@ services:
 
   kibana:
     build: kibana
+    extends:
+      file: base.yml
+      service: base
     ports:
       - 5601:5601
     depends_on:
@@ -64,6 +73,9 @@ services:
 
   rabbitmq:
     build: rabbitmq
+    extends:
+      file: base.yml
+      service: base
     ports:
       - "15672:15672"
       - "5672:5672"
@@ -86,9 +98,14 @@ services:
     healthcheck:
       test: "exit 0"
     restart: on-failure
+    environment:
+      - BROKER=kafka
 
   zookeeper:
     build: zookeeper
+    extends:
+      file: base.yml
+      service: base
     ports:
       - "2181:2181"
     environment:
@@ -96,12 +113,17 @@ services:
 
   kafka:
     build: kafka
+    extends:
+      file: base.yml
+      service: base
     ports:
       - "9092:9092"
+      - "9093"
     environment:
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
-      - KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
+      - KAFKA_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
     depends_on:
       - zookeeper
     healthcheck:
@@ -109,6 +131,9 @@ services:
 
   kafdrop:
     build: kafdrop
+    extends:
+      file: base.yml
+      service: base
     restart: "on-failure"
     ports:
       - "9000:9000"
