@@ -3,5 +3,10 @@
 echo "=> /opt/elk contents"
 ls -l /opt/elk
 
-echo "=> setting up ${BROKER}"
-/opt/elk/bootstrap --broker=${BROKER}
+echo "=> setting up ${BROKERS}"
+
+IFS=','
+read -ra ADDR <<<"$BROKERS"
+for BROKER in "${ADDR[@]}"; do
+    /opt/elk/bootstrap --broker=${BROKER}
+done

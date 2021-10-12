@@ -28,9 +28,9 @@ services:
       - ./tmp/messages-kv.log:/var/log/messages
       - ./tmp:/var/beats
     depends_on:
+      - syslog
       - noise
-      - kafka
-      - rabbitmq
+      - bootstrap
     restart: on-failure
 
   logstash:
@@ -42,34 +42,36 @@ services:
       - 5044:5044
     restart: on-failure
     depends_on:
-      - rabbitmq
-      - kafka
-      - elasticsearch
+      - bootstrap
+      - beats
+      #- elasticsearch
+    volumes:
+      - ./tmp:/var/log/
 
-  elasticsearch:
-    build: elasticsearch
-    extends:
-      file: base.yml
-      service: base
-    ports:
-      - 9200:9200
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-    restart: on-failure
+  # elasticsearch:
+  #   build: elasticsearch
+  #   extends:
+  #     file: base.yml
+  #     service: base
+  #   ports:
+  #     - 9200:9200
+  #   environment:
+  #     - discovery.type=single-node
+  #     - xpack.security.enabled=false
+  #   restart: on-failure
 
-  kibana:
-    build: kibana
-    extends:
-      file: base.yml
-      service: base
-    ports:
-      - 5601:5601
-    depends_on:
-      - elasticsearch
-    environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-    restart: on-failure
+  # kibana:
+  #   build: kibana
+  #   extends:
+  #     file: base.yml
+  #     service: base
+  #   ports:
+  #     - 5601:5601
+  #   depends_on:
+  #     - elasticsearch
+  #   environment:
+  #     - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+  #   restart: on-failure
 
   rabbitmq:
     build: rabbitmq
@@ -99,7 +101,7 @@ services:
       test: "exit 0"
     restart: on-failure
     environment:
-      - BROKER=kafka
+      - BROKERS=kafka,rabbitmq
 
   zookeeper:
     build: zookeeper

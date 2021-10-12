@@ -38,11 +38,11 @@ func main() {
 
 const (
 	dlExchange       = "elk-dead-letter"
-	dlQueue          = "elk-dead-letter-queue"
+	dlQueue          = "elk-dlq"
 	unroutedExchange = "elk-unrouted"
-	elkExchange      = "elk-exchange"
-	elkQueue         = "elk-queue"
-	unroutedQueue    = "elk-unrouted-queue"
+	elkExchange      = "elk-syslog"
+	elkQueue         = "elk-syslog"
+	unroutedQueue    = "elk-unrouted"
 )
 
 func setupRabbitMQ() {
