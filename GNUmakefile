@@ -1,6 +1,6 @@
 .DEFAULT_GOAL=all
 
-.PHONY: all build up down clean bootstrap logstash monitor elasticsearch
+.PHONY: all build up down clean bootstrap logstash monitor elasticsearch kibana
 all: build up
 
 setup:
@@ -29,3 +29,6 @@ logstash: setup
 
 elasticsearch:
 	@docker compose up elasticsearch
+
+kibana:
+	@docker compose up kibana
