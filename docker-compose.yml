@@ -44,34 +44,39 @@ services:
     depends_on:
       - bootstrap
       - beats
-      #- elasticsearch
     volumes:
       - ./tmp:/var/log/
 
-  # elasticsearch:
-  #   build: elasticsearch
-  #   extends:
-  #     file: base.yml
-  #     service: base
-  #   ports:
-  #     - 9200:9200
-  #   environment:
-  #     - discovery.type=single-node
-  #     - xpack.security.enabled=false
-  #   restart: on-failure
+  elasticsearch:
+    build: elasticsearch
+    extends:
+      file: base.yml
+      service: base
+    ports:
+      - 9200:9200
+    environment:
+      - node.name=elasticsearch
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
 
-  # kibana:
-  #   build: kibana
-  #   extends:
-  #     file: base.yml
-  #     service: base
-  #   ports:
-  #     - 5601:5601
-  #   depends_on:
-  #     - elasticsearch
-  #   environment:
-  #     - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-  #   restart: on-failure
+  kibana:
+    build: kibana
+    extends:
+      file: base.yml
+      service: base
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    restart: on-failure
 
   rabbitmq:
     build: rabbitmq
@@ -99,7 +104,6 @@ services:
         condition: service_healthy
     healthcheck:
       test: "exit 0"
-    restart: on-failure
     environment:
       - BROKERS=kafka,rabbitmq
 
