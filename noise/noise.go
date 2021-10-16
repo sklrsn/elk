@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"log/syslog"
+	"math/rand"
 	"time"
 )
 
@@ -26,7 +27,10 @@ func main() {
 		select {
 		case <-tiker.C:
 			go func() {
-				logger.Info(fmt.Sprintf("=> clock is ticking ... %v", time.Now()))
+				max := rand.Intn(10)
+				for i := 0; i < max; i++ {
+					logger.Info(fmt.Sprintf("=> clock is ticking ... %v", time.Now()))
+				}
 			}()
 		}
 	}
