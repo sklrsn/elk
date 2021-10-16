@@ -14,6 +14,9 @@ rm: down clean
 down:
 	docker compose down
 
+up: build
+	docker compose up
+	
 clean:
 	@echo "=> Removing ... Please wait"
 	@rm -rf tmp/

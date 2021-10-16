@@ -55,7 +55,7 @@ services:
     ports:
       - 5601:5601
     environment:
-      - ELASTICSEARCH_HOSTS=http://ec2-13-53-243-151.eu-north-1.compute.amazonaws.com:9200
+      - ELASTICSEARCH_HOSTS=http://ec2-13-53-46-140.eu-north-1.compute.amazonaws.com:9200
     restart: on-failure
 
   rabbitmq:
